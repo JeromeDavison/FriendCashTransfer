@@ -160,7 +160,7 @@ res.sendFile(__dirname + '/PaymentScreen.html');
 //create bank account connection
 
 app.route('/homePage')
-.get( function (req, res, next){
+.get(loggedin, function (req, res, next){
 	Users.Transfer.find({toUsername: req.user.username, confirmed: true}, function (err, data){
 	if (err)
 	{
@@ -172,7 +172,7 @@ app.route('/homePage')
 });
 
 app.route('/unaccept')
-.get( function (req, res, next){
+.get(loggedin, function (req, res, next){
 	Users.Transfer.find({toUsername: req.user.username, confirmed: false}, function (err, data){
 	if (err)
 	{
@@ -191,7 +191,7 @@ app.route('/requestUser')
 	
 })
 app.route('/acceptTransfer')
-.post(function(req,res,next){
+.post(loggedin, function(req,res,next){
 	Users.Transfer.find({invoiceId:req.body.ID}, function(err, succ){
 		if (err){
 			res.json({data:'sorry, incorrect ID, try again'});
@@ -223,7 +223,7 @@ app.route('/acceptTransfer')
 
 
 app.route('/Transfer')
-.post( function (req,res,next) {
+.post(loggedin, function (req,res,next) {
 	Users.Transfer.find({invoiceId:req.body.ID, confirmed: true}, function(failedID, IDverify){
 		if(failedID) {
 		res.json({data:'sorry, ID is incorrect. Please try again'})
@@ -293,7 +293,7 @@ app.route('/Transfer')
 })
 	
 app.route('/createTransfer')
-.post((req, res, next) => {
+.post(loggedin, (req, res, next) => {
 	//let them input invoiceID
 	var newTransfer = new Users.Transfer();
 	let ID = mapString('Add-wwww-AAA-ddA', randChar);
@@ -319,7 +319,7 @@ app.route('/createTransfer')
 
 
 app.route('/PastCharges')
-.get((req, res, next) => {
+.get(loggedin, (req, res, next) => {
 	// retrieve the charge list, parse info i need, send back to user
 	Users.payEstablish({toUsername:req.user.username}, function (err, data){ //open db
 	if (err){
@@ -332,7 +332,7 @@ app.route('/PastCharges')
 
 
 app.route('/AccountData')
-.get((req,res,next) => {
+.get(loggedin, (req,res,next) => {
 	//each username is associated with an automatically generated account which is made on the registration
 stripe.accounts.retrieve(
     req.body.AcctInfo, // linked to user
@@ -350,7 +350,7 @@ stripe.accounts.retrieve(
 
 
 app.route('/homePa') // <!-- home page info -->
-.get((req,res,next) => {
+.get(loggedin (req,res,next) => {
 	//each username is associated with an automatically generated account which is made on the registration
 	Users.Transfer.find({toUserrname: req.user.username}, function(err, info){
      res.json({data:info});
@@ -360,7 +360,7 @@ app.route('/homePa') // <!-- home page info -->
 
 
 app.route('/ChangeBankInfo')
-.post((req,res,next) => {
+.post(loggedin, (req,res,next) => {
 	//each username is associated with an automatically generated account which is made on the registration
 	    res.header("Access-Control-Allow-Origin", "*"); res.header("Access-Control-Allow-Credentials", "true"); res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT"); res.header("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"); next();
 		stripe.accounts.deleteExternalAccount(
