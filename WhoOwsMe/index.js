@@ -276,7 +276,7 @@ app.route('/Transfer')
 			IDverify[0].save(function (err, win){
 				if (win){
            	console.log(charge, win);			
-            res.redirect('/BankInfo');
+            res.redirect('/home');
 				}
 			})
 		}
@@ -306,7 +306,7 @@ app.route('/createTransfer')
 		if (err){
 		res.json({data: 'You have no invoices to accept!'});
 	} else {
-	res.json({data:data});
+	res.redirect('/home');
 	
 	}
 })
