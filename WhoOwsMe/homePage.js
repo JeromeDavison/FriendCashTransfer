@@ -72,11 +72,6 @@ class homePage extends React.Component{
 	
 	
 	
-	handleChange(e){
-		e.preventDefault();
-	}
-		
-	
 		
 	 
 	
@@ -102,7 +97,7 @@ class homePage extends React.Component{
          <label className="col-md-4 control-label"></label>
     
 	     <div className="col-md-4">
-         <center> <input type="submit" className="btn btn-warning" type = "submit" value = "New Transfer" href = "/Transfer"/></center>
+         <center> <input type="submit" className="btn btn-warning" type = "submit" value = "New Transfer" href = "/Acceptt"/></center>
 	     <br>
 	     </br>
          </div>
